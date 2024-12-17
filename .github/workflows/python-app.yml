@@ -22,7 +22,7 @@ jobs:
     - name: Run Python script
       run: |
         chcp 65001
-        python main.py
+        python new_code.py
       env:
         PYTHONUNBUFFERED: 1
         PYTHONIOENCODING: utf-8
