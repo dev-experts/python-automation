@@ -79,14 +79,25 @@ class BrowserAutomation:
             self.uptodown_driver.get("https://black-lotus.en.uptodown.com/android/download")
             time.sleep(5)
             
+            # انتظار ظهور زر التحميل
             download_button = WebDriverWait(self.uptodown_driver, 10).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, "#detail-download-button"))
             )
-            download_button.click()
+            
+            # محاولة النقر باستخدام JavaScript
+            self.uptodown_driver.execute_script("arguments[0].click();", download_button)
             print(f"Download button clicked in tab {tab_index}")
             
         except Exception as e:
             print(f"Error in tab {tab_index}: {str(e)}")
+            # محاولة بديلة للنقر
+            try:
+                self.uptodown_driver.execute_script("""
+                    document.querySelector('#detail-download-button').click();
+                """)
+                print(f"Alternative click method succeeded in tab {tab_index}")
+            except Exception as e2:
+                print(f"Alternative click also failed in tab {tab_index}: {str(e2)}")
 
     def run(self):
         """Run main program"""
